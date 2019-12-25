@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date: 2019-12-25 13:02
  */
 @RestController
+@RequestMapping(path = "/user")
 public class UserInfoController {
 
     @Autowired

@@ -19,6 +19,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public UserInfo queryUser(String userName) {
-        return userInfoMapper.selectByPrimaryKey(userName);
+        return userInfoMapper.queryUserByName(userName);
     }
 }
