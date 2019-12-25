@@ -1,0 +1,104 @@
+Configuration:
+  status: info
+  properties:
+    property:
+    - name: logPath
+      value: logs
+  Appenders:
+    Console:
+      name: consoleAppender
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: '[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n'
+    RollingFile:
+    - name: serverAppender
+      fileName: ${logPath}/server.log
+      filePattern: ${logPath}/server_%d{yyyy-MM-dd}.log.gz
+      PatternLayout:
+        pattern: '[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n'
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+    - name: errorAppender
+      fileName: ${logPath}/error.log
+      filePattern: ${logPath}/error_%d{yyyy-MM-dd}.log.gz
+      PatternLayout:
+        pattern: '[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n'
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+    - name: commonAppender
+      fileName: ${logPath}/common.log
+      filePattern: ${logPath}/common_%d{yyyy-MM-dd}.log.gz
+      PatternLayout:
+        pattern: '[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n'
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+    - name: requestAppender
+      fileName: ${logPath}/request.log
+      filePattern: ${logPath}/request_%d{yyyy-MM-dd}.log.gz
+      PatternLayout:
+        pattern: '[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n'
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+    - name: jobAppender
+      fileName: ${logPath}/job.log
+      filePattern: ${logPath}/job_%d{yyyy-MM-dd}.log.gz
+      PatternLayout:
+        pattern: '[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n'
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+    - name: orderAppender
+      fileName: ${logPath}/order.log
+      filePattern: ${logPath}/order_%d{yyyy-MM-dd}.log.gz
+      PatternLayout:
+        pattern: '[%p] %d{yyyy-MM-dd HH:mm:ss} - %m%n'
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+      - ref: consoleAppender
+      - ref: serverAppender
+    Logger:
+    - name: error
+      level: debug
+      additivity: false
+      AppenderRef:
+      - ref: consoleAppender
+      - ref: errorAppender
+    - name: common
+      level: debug
+      additivity: false
+      AppenderRef:
+      - ref: consoleAppender
+      - ref: commonAppender
+    - name: request
+      level: info
+      additivity: false
+      AppenderRef:
+      - ref: consoleAppender
+      - ref: requestAppender
+    - name: job
+      level: info
+      additivity: false
+      AppenderRef:
+      - ref: consoleAppender
+      - ref: jobAppender
+    - name: order
+      level: info
+      additivity: false
+      AppenderRef:
+      - ref: consoleAppender
+      - ref: orderAppender

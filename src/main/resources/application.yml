@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active: dev
+
+server:
+  port: 8888
+
+# 日志配置
+logging:
+  config: classpath:log4j2.yml
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*Mapper.xml
+  type-aliases-package: com.zhd.ultimate.sociology.entity
+
+
+
