@@ -15,6 +15,10 @@ public class UserInfo {
 
     private String address;
 
+    private Integer sex;
+
+    private String email;
+
     private Integer level;
 
     private Date createTime;
@@ -67,6 +71,22 @@ public class UserInfo {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 
     public Integer getLevel() {

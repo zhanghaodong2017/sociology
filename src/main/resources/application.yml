@@ -1,6 +1,14 @@
 spring:
   profiles:
     active: dev
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML5
+    cache: false
+
 
 server:
   port: 8888
@@ -12,6 +20,4 @@ logging:
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*Mapper.xml
   type-aliases-package: com.zhd.ultimate.sociology.entity
-
-
 

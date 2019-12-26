@@ -1,0 +1,260 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<link
+	href="${pageContext.request.contextPath}/bootstrap/bower_components/bootstrap/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- MetisMenu CSS -->
+<link
+	href="${pageContext.request.contextPath}/bootstrap/bower_components/metisMenu/dist/metisMenu.min.css"
+	rel="stylesheet">
+<!-- Timeline CSS -->
+<link
+	href="${pageContext.request.contextPath}/bootstrap/dist/css/timeline.css"
+	rel="stylesheet">
+<!-- Custom CSS -->
+<link
+	href="${pageContext.request.contextPath}/bootstrap/dist/css/sb-admin-2.css"
+	rel="stylesheet">
+<!-- Morris Charts CSS -->
+<link
+	href="${pageContext.request.contextPath}/bootstrap/bower_components/morrisjs/morris.css"
+	rel="stylesheet">
+<!-- Custom Fonts -->
+<link
+	href="${pageContext.request.contextPath}/bootstrap/bower_components/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="${pageContext.request.contextPath}/bootstrap/master/css/bootstrap-datetimepicker.min.css"
+	rel="stylesheet" type="text/css">
+<style type="text/css">
+
+td{padding:2px;marign:1px;}
+
+</style>
+<script type="text/javascript">
+function add() {
+	$("#mtu").val($("#mtuselect").val());
+    
+    $("#addPlanForm").submit();
+    
+}
+function timechg(element){
+	 var reg1=reg=/^((20|21|22|23|[0-1]\d)\:[0-5][0-9])(\:[0-5][0-9])?$/; 
+	 if(reg1.test(element.value)){
+		
+	 }
+	 var val=element.value;
+	 if(val.length!=0){    
+		    reg2=/^((20|21|22|23|[0-1]\d)[0-5][0-9])([0-5][0-9])?$/; 
+		    reg3=/^((20|21|22|23|[0-1]\d)[0-5][0-9])?$/;
+		   if(reg2.test(val)){ 
+		        	
+		        	element.value=val.substring(0,2)+":"+ val.substring(2,4) +":"+ val.substring(4,6) ;
+       		}  
+		   if(reg3.test(val)){ 
+	        	
+	        	element.value=val.substring(0,2)+":"+ val.substring(2,4) +":00" ;
+  		} 
+    }    
+}
+function cancel(){
+
+	location.href ="${pageContext.request.contextPath}/plan/planAction.do";
+}
+function checkchange(allbox){
+	//alert(allbox.checked);
+	if(allbox.checked){
+		$("[name='province']").prop("checked",'true');//全选 
+	}else{
+		$("[name='province']").removeAttr("checked");//取消全选
+	}
+}
+</script>
+
+
+</head>
+<body>
+	<div id="content" style="margin-top: 2em;">
+		<div id="content-header">
+			<div id="breadcrumb">
+				<span class="glyphicon glyphicon-home">方案新增</span>
+
+			</div>
+		</div>
+		<hr />
+
+		<div class="container-fluid">
+			<form
+				action="${pageContext.request.contextPath }/plan/planAction_add.do"
+				method="post" id="addPlanForm">
+				<input type="hidden" name="mtu" id="mtu"/> 
+				<div style="text-align: center;width: 100%">
+					<table style="width: 800px">
+						<tr>
+							<td>方案类型</td>
+							<td><select  name="plantype" class="form-control" >
+                                                    <option value="1">私有方案</option>
+                                                    <option value="0">通用方案</option>
+                                 </select>
+                                 </td>
+						</tr>
+						<tr>
+							<td>方案名称</td>
+							<td><input class="form-control"  name="planname"/></td>
+						</tr>
+						<tr>
+							<td>开关类型</td>
+							<td><input class="form-control"  name="switchtype"/></td>
+						</tr>
+						<tr>
+							<td>开始时间</td>
+							<td><input class="form-control"  name="begintime"  placeholder="例如  06:00:00"
+							onkeypress="if(event.keyCode==13) {timechg(this);return false;}"
+							onchange="timechg(this)"/>
+							</td>
+						</tr>
+						<tr>
+							<td>结束时间</td>
+							<td><input class="form-control"  name="endtime"  placeholder="例如  09:00:00"
+							onkeypress="if(event.keyCode==13) {timechg(this);return false;}"
+							onchange="timechg(this)"/></td>
+						</tr>
+						<tr>
+							<td>几率</td>
+							<td><input class="form-control"  name="probubility"/></td>
+						</tr>
+						<tr>
+							<td>运营商</td>
+							<td><select  name="mtuselect" id="mtuselect" class="form-control" disabled="disabled">
+                                                    <option value="M">移动</option>
+                                 </select>
+                                 </td>
+						</tr>
+						<tr>
+							<td>选择省份</td>
+							<td align="left"><input type="checkbox"  id="allcheck" onchange="checkchange(this)"> 全选/全不选</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+						
+							<td colspan="2" width="100%" align="center">
+							<table width="80%">
+							<tr>
+							<td><input type="checkbox" value="1" name="province">上海   </td>
+							<td><input type="checkbox" value="2" name="province">云南   </td>
+							<td><input type="checkbox" value="3" name="province">内蒙古 </td>
+							<td><input type="checkbox" value="4" name="province">北京   </td>
+							<td><input type="checkbox" value="5" name="province">吉林   </td>
+							<td><input type="checkbox" value="6" name="province">四川   </td>
+							<td><input type="checkbox" value="7" name="province">天津   </td>
+							<td><input type="checkbox" value="8" name="province">宁夏   </td>
+							
+							<td><input type="checkbox" value="9" name="province">安徽   </td>
+							<td><input type="checkbox" value="10" name="province">山东  </td>
+							<td><input type="checkbox" value="11" name="province">山西  </td>
+							</tr>
+							<tr>
+							<td><input type="checkbox" value="12" name="province">广东  </td>
+							<td><input type="checkbox" value="13" name="province">广西  </td>
+							<td><input type="checkbox" value="14" name="province">新疆  </td>
+							<td><input type="checkbox" value="15" name="province">江苏  </td>
+							<td><input type="checkbox" value="16" name="province">江西  </td>
+							<td><input type="checkbox" value="17" name="province">河北  </td>
+							<td><input type="checkbox" value="18" name="province">河南  </td>
+							<td><input type="checkbox" value="19" name="province">浙江  </td>
+							<td><input type="checkbox" value="20" name="province">海南  </td>
+							<td><input type="checkbox" value="21" name="province">湖北  </td>
+							<td><input type="checkbox" value="22" name="province">湖南  </td>
+							</tr>
+							<tr>
+							<td><input type="checkbox" value="23" name="province">甘肃  </td>
+							<td><input type="checkbox" value="24" name="province">福建  </td>
+							<td><input type="checkbox" value="25" name="province">西藏  </td>
+							<td><input type="checkbox" value="26" name="province">贵州  </td>
+							<td><input type="checkbox" value="27" name="province">辽宁  </td>
+							<td><input type="checkbox" value="28" name="province">重庆  </td>
+							<td><input type="checkbox" value="29" name="province">陕西  </td>
+							<td><input type="checkbox" value="30" name="province">青海  </td>
+							<td><input type="checkbox" value="31" name="province">黑龙江</td>
+							</tr>
+							</table>
+							
+							
+							</td>
+							
+							
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="2" width="100%" align="center">
+								<table>
+									<tr>
+										<td><button type="button" onclick="add()" class="btn btn-default">提交</button></td>
+										<td><button type="reset" onclick="cancel()" class="btn btn-default">取消</button></td>
+									</tr>
+								</table>
+							</td>
+							
+						</tr>
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
+<!-- jQuery -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/bootstrap/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/bootstrap/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/bootstrap/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+<!-- Morris Charts JavaScript -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/bootstrap/bower_components/raphael/raphael-min.js"></script>
+
+
+<!-- DataTables JavaScript -->
+<script
+	src="${pageContext.request.contextPath}/bootstrap/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/bootstrap/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script
+	src="${pageContext.request.contextPath}/bootstrap/dist/js/sb-admin-2.js"></script>
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/bootstrap/master/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/bootstrap/master/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+
+
+<script type="text/javascript">
+$(function(){
+	  $(".form_datetime").datetimepicker({
+		  format:"yyyy-MM-dd"
+		  
+	    });
+});		
+</script>

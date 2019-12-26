@@ -9,4 +9,6 @@ import com.zhd.ultimate.sociology.entity.UserInfo;
  */
 public interface UserInfoService {
     UserInfo queryUser(String userName);
+
+    UserInfo login(String userName, String passWord);
 }
