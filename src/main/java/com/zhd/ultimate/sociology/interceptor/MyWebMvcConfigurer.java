@@ -22,7 +22,11 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
         registry.addInterceptor(new LoginHandlerInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/home/login", "/home/showLogin")
-                .excludePathPatterns("/bootstrap/**");
+                .excludePathPatterns("/bower_components/**")
+                .excludePathPatterns("*.js")
+                .excludePathPatterns("*.css")
+                .excludePathPatterns("*.jpg")
+                .excludePathPatterns("*.png");
 
     }
 }
