@@ -16,6 +16,6 @@ public class Utils {
 
     public static String random8() {
         String[] split = UUID.randomUUID().toString().split("-");
-        return split[0] + split[1];
+        return split[split.length - 2] + split[split.length - 1];
     }
 }
