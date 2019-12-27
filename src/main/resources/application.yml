@@ -21,3 +21,9 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*Mapper.xml
   type-aliases-package: com.zhd.ultimate.sociology.entity
 
+#pagehelper分页插件配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: countSql
