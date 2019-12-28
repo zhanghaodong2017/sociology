@@ -73,86 +73,13 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li class="active">
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-wrench fa-fw"></i> 资产管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li class="active">
-                                <a th:href="@{/pages/flot.html}" target="myIframe">Flot Charts</a>
+                                <a th:href="@{/supplies/queryAllSupplies}" target="myIframe">办公用品</a>
                             </li>
                             <li>
-                                <a href="morris.html">Morris.js Charts</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                    </li>
-                    <li>
-                        <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="panels-wells.html">Panels and Wells</a>
-                            </li>
-                            <li>
-                                <a href="buttons.html">Buttons</a>
-                            </li>
-                            <li>
-                                <a href="notifications.html">Notifications</a>
-                            </li>
-                            <li>
-                                <a href="typography.html">Typography</a>
-                            </li>
-                            <li>
-                                <a href="icons.html"> Icons</a>
-                            </li>
-                            <li>
-                                <a href="grid.html">Grid</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span
-                                class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Second Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Second Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="blank.html">Blank Page</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/home/showLogin}">Login Page</a>
+                                <a th:href="@{/supplies/queryAllSupplies}" target="myIframe">设备管理</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -166,7 +93,7 @@
 
     <!-- Page Content -->
     <div id="page-wrapper" style="margin-top:0;margin-bottom:0; height:100%;">
-        <div class="container-fluid" style="margin-top:0;margin-bottom:0; height:100%;">
+        <div class="container-fluid" style="margin-top:0;margin-bottom:0;margin-left:0; height:100%;">
             <!--<div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Blank</h1>
@@ -174,7 +101,7 @@
                 &lt;!&ndash; /.col-lg-12 &ndash;&gt;
             </div>-->
             <iframe id="myIframe" name="myIframe" frameborder=0 scrolling='auto'
-                    style='width:100%;height:90%;'></iframe>
+                    style='margin:0;width:100%;height:90%;'></iframe>
             <!-- /.row -->
         </div>
         <!-- /.container-fluid -->

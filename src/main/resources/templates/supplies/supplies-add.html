@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Admin平台系统</title>
+    <link th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/bower_components/metisMenu/dist/metisMenu.min.css}" rel="stylesheet">
+    <link th:href="@{/bower_components/morrisjs/morris.css}" rel="stylesheet">
+    <link th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/myjs/bootstrap-select.css}" rel="stylesheet" type="text/css">
+
+    <style type="text/css">
+
+        td {
+            padding: 2px;
+            marign: 1px;
+        }
+
+    </style>
+    <script type="text/javascript">
+        function add() {
+
+            if ($("#name").val() == '') {
+                $.MsgBox.Alert("提示", "名称不能为空");
+                return;
+            }
+            if ($("#type").val() == '') {
+                $.MsgBox.Alert("提示", "类型不能为空");
+                return;
+            }
+            if ($("#stock").val() == '') {
+                $.MsgBox.Alert("提示", "库存不能为空");
+                return;
+            }
+            $("#suppliesForm").submit();
+        }
+
+        function cancel() {
+            location.href = "/supplies/queryAllSupplies";
+        }
+
+
+    </script>
+
+
+</head>
+<body>
+<div id="content" style="margin-top: 2em;">
+    <div class="container-fluid">
+        <form th:action="@{/supplies/add}" method="POST" id="suppliesForm">
+            <div style="text-align: center; width: 100%">
+                <table style="width: 800px">
+                    <tr>
+                        <td width="30%">名称<span style="color: red">*</span></td>
+                        <td width="70%">
+                            <input class="form-control" id="name" maxlength="60" name="supplies.name"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%">类型<span style="color: red">*</span></td>
+                        <td width="70%">
+                            <select name="supplies.type" id="type" class="form-control">
+                                <option></option>
+                                <option value="1">纸</option>
+                                <option value="2">笔</option>
+                                <option value="3">订书机</option>
+                                <option value="4">回形针</option>
+                                <option value="5">打印纸</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%">库存<span style="color: red">*</span></td>
+                        <td width="70%">
+                            <input class="form-control" id="stock" type="number" maxlength="7" name="supplies.stock"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%">备注</td>
+                        <td width="70%">
+                            <textarea rows="4" cols="" class="form-control" maxlength="60" name="supplies.remarks"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" width="100%" align="center">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <button type="button" onclick="add()" class="btn btn-default">提交</button>
+                                    </td>
+                                    <td>
+                                        <button type="reset" onclick="cancel()" class="btn btn-default">取消</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<!-- jQuery -->
+<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script th:src="@{/bower_components/metisMenu/dist/metisMenu.min.js}"></script>
+
+<!-- Morris Charts JavaScript -->
+<script th:src="@{/bower_components/raphael/raphael-min.js}"></script>
+
+
+<script th:src="@{/myjs/confirm.js}"></script>
+
+<script th:src="@{/myjs/bootstrap-select.js}"></script>
+
+
+</html>
+

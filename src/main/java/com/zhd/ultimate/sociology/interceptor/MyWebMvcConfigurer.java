@@ -26,6 +26,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
                 .excludePathPatterns("*.js")
                 .excludePathPatterns("*.css")
                 .excludePathPatterns("*.jpg")
+                .excludePathPatterns("*.json")
                 .excludePathPatterns("*.png");
 
     }
