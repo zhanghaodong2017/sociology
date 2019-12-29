@@ -1,4 +1,4 @@
-${r'<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -24,15 +24,15 @@ ${r'<!DOCTYPE html>
         }
 
     </style>
-'}
-    <script type="text/javascript">
-        function update() {
 
-            $("#${tableEntityName}Form").submit();
+    <script type="text/javascript">
+        function add() {
+
+            $("#studentGradeForm").submit();
         }
 
         function cancel() {
-            location.href = "/${tableEntityName}/queryAll${firstUpTableName}";
+            location.href = "/studentGrade/queryAllStudentGrade";
         }
 
 
@@ -43,18 +43,39 @@ ${r'<!DOCTYPE html>
 <body>
 <div id="content" style="margin-top: 2em;">
     <div class="container-fluid">
-        <form th:action="@{/${tableEntityName}/update}" method="POST" id="${tableEntityName}Form">
+        <form th:action="@{/studentGrade/add}" method="POST" id="studentGradeForm">
             <div style="text-align: center; width: 100%">
                 <table style="width: 800px">
-                    <#list columnMap?keys as key >
-                     <tr>
-                        <td width="30%">${columnMap[key]}<span style="color: red">*</span></td>
+                    <tr>
+                        <td width="30%"> 主键<span style="color: red">*</span></td>
                         <td width="70%">
-                        <input class="form-control" id="${key}" maxlength="60" name="${tableEntityName}.${key}" th:value="${r'${'}${tableEntityName}.${key}${r'}'}" />
+                            <input class="form-control" id="guid" maxlength="60" name="studentGrade.guid"/>
                         </td>
-                     </tr>
-                    </#list>
-
+                    </tr>
+                    <tr>
+                        <td width="30%"> 学生姓名<span style="color: red">*</span></td>
+                        <td width="70%">
+                            <input class="form-control" id="stuName" maxlength="60" name="studentGrade.stuName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"> 性别[0:男,1:女]<span style="color: red">*</span></td>
+                        <td width="70%">
+                            <input class="form-control" id="stuSex" maxlength="60" name="studentGrade.stuSex"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"> 成绩<span style="color: red">*</span></td>
+                        <td width="70%">
+                            <input class="form-control" id="grade" maxlength="60" name="studentGrade.grade"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"> 备注<span style="color: red">*</span></td>
+                        <td width="70%">
+                            <input class="form-control" id="remarks" maxlength="60" name="studentGrade.remarks"/>
+                        </td>
+                    </tr>
                     <tr>
                         <td></td>
                         <td></td>
@@ -64,7 +85,7 @@ ${r'<!DOCTYPE html>
                             <table>
                                 <tr>
                                     <td>
-                                        <button type="button" onclick="update()" class="btn btn-default">提交</button>
+                                        <button type="button" onclick="add()" class="btn btn-default">提交</button>
                                     </td>
                                     <td>
                                         <button type="reset" onclick="cancel()" class="btn btn-default">取消</button>
@@ -80,7 +101,7 @@ ${r'<!DOCTYPE html>
     </div>
 </div>
 </body>
-${r'
+
 <!-- jQuery -->
 <script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
 
@@ -97,9 +118,7 @@ ${r'
 <script th:src="@{/myjs/confirm.js}"></script>
 
 <script th:src="@{/myjs/bootstrap-select.js}"></script>
-<script type="text/javascript">
 
-</script>
 
 </html>
-'}
+

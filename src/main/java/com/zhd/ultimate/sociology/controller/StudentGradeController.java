@@ -2,6 +2,7 @@ package com.zhd.ultimate.sociology.controller;
 
 import com.zhd.ultimate.sociology.entity.StudentGrade;
 import com.zhd.ultimate.sociology.service.StudentGradeService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
 
 
@@ -28,13 +28,13 @@ public class StudentGradeController {
 
     @RequestMapping("/queryAllStudentGrade")
     public String queryAllStudentGrade(Model model) {
-        List<StudentGrade> studentGradeList = studentGradeService.queryAllStudentGrade();
+        List <StudentGrade> studentGradeList = studentGradeService.queryAllStudentGrade();
         model.addAttribute("studentGradeList", studentGradeList);
         return "studentGrade/studentGrade-query";
     }
 
     @RequestMapping("/showAdd")
-    public String showAdd() {
+        public String showAdd() {
         return "studentGrade/studentGrade-add";
     }
 

@@ -13,10 +13,8 @@ import javax.sql.rowset.RowSetFactory;
 import javax.sql.rowset.RowSetProvider;
 import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author: zhanghaodong
@@ -55,26 +53,76 @@ public class ZenCode {
         String tableName = "student_grade";
         String tableEntityName = getEntityName(tableName);
         String firstUpTableName = getFirstUp(tableEntityName);
+
+        createJavaCode(tableEntityName, firstUpTableName);
+
         List<MyTableColumn> columns = getColumnByTableName(tableName);
         System.out.println(JSON.toJSONString(columns));
 
-        createControllerCode(tableEntityName, firstUpTableName);
-        createServiceCode(tableEntityName, firstUpTableName);
-        createServiceImplCode(tableEntityName, firstUpTableName);
+        createHtmlCode(tableEntityName, firstUpTableName, columns);
+
     }
 
-    private static void createControllerCode(String tableEntityName, String firstUpTableName) {
-        try {
-            Template controllerTemplate = getTemplate("controller.ftl");
 
-            Map<String, Object> paramsMap = new HashMap<String, Object>();
-            paramsMap.put("tableEntityName", tableEntityName);
-            paramsMap.put("firstUpTableName", firstUpTableName);
-            File file = new File(projectRoot + targetJava + controller, firstUpTableName + "Controller.java");
-            System.out.println(file);
+    private static void createHtmlCode(String tableEntityName, String firstUpTableName, List<MyTableColumn> columns) {
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("tableEntityName", tableEntityName);
+        paramsMap.put("firstUpTableName", firstUpTableName);
+        List<String> columnCommentList = columns.stream().map(MyTableColumn::getComment).collect(Collectors.toList());
+        paramsMap.put("columnCommentList", columnCommentList);
+        List<String> columnList = columns.stream().map(MyTableColumn::getEntityName).collect(Collectors.toList());
+        paramsMap.put("columnList", columnList);
+        LinkedHashMap<Object, Object> columnMap = new LinkedHashMap<>();
+        for (MyTableColumn tableColumn : columns) {
+            columnMap.put(tableColumn.getEntityName(), tableColumn.getComment());
+        }
+        paramsMap.put("columnMap", columnMap);
+
+        File parentFile = new File(projectRoot + targetResources + html + tableEntityName);
+        if (!parentFile.exists()) {
+            parentFile.mkdir();
+        }
+
+        createQueryHtml(paramsMap, parentFile, tableEntityName);
+        createAddHtml(paramsMap, parentFile, tableEntityName);
+        createUpdateHtml(paramsMap, parentFile, tableEntityName);
+    }
+
+    private static void createQueryHtml(Map<String, Object> paramsMap, File parentFile, String tableEntityName) {
+        File file = new File(parentFile, tableEntityName + "-query.html");
+        System.out.println(file);
+        writeTemplate(paramsMap, file, "query.ftl");
+    }
+
+    private static void createAddHtml(Map<String, Object> paramsMap, File parentFile, String tableEntityName) {
+        File file = new File(parentFile, tableEntityName + "-add.html");
+        System.out.println(file);
+        writeTemplate(paramsMap, file, "add.ftl");
+    }
+
+    private static void createUpdateHtml(Map<String, Object> paramsMap, File parentFile, String tableEntityName) {
+        File file = new File(parentFile, tableEntityName + "-update.html");
+        System.out.println(file);
+        writeTemplate(paramsMap, file, "update.ftl");
+    }
+
+    private static void createJavaCode(String tableEntityName, String firstUpTableName) {
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("tableEntityName", tableEntityName);
+        paramsMap.put("firstUpTableName", firstUpTableName);
+
+        createControllerCode(paramsMap, firstUpTableName);
+        createServiceCode(paramsMap, firstUpTableName);
+        createServiceImplCode(paramsMap, firstUpTableName);
+    }
+
+    private static void writeTemplate(Map<String, Object> paramsMap, File file, String templateName) {
+        try {
+            Template template = getTemplate(templateName);
             OutputStream fos = new FileOutputStream(file);
             Writer out = new OutputStreamWriter(fos);
-            controllerTemplate.process(paramsMap, out);
+            template.process(paramsMap, out);
             fos.flush();
             fos.close();
         } catch (Exception e) {
@@ -82,41 +130,22 @@ public class ZenCode {
         }
     }
 
-    private static void createServiceCode(String tableEntityName, String firstUpTableName) {
-        try {
-            Template serviceTemplate = getTemplate("service.ftl");
-
-            Map<String, Object> paramsMap = new HashMap<String, Object>();
-            paramsMap.put("tableEntityName", tableEntityName);
-            paramsMap.put("firstUpTableName", firstUpTableName);
-            File fileService = new File(projectRoot + targetJava + service, firstUpTableName + "Service.java");
-            OutputStream fos = new FileOutputStream(fileService);
-            Writer out = new OutputStreamWriter(fos);
-            serviceTemplate.process(paramsMap, out);
-            fos.flush();
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private static void createControllerCode(Map<String, Object> paramsMap, String firstUpTableName) {
+        File file = new File(projectRoot + targetJava + controller, firstUpTableName + "Controller.java");
+        System.out.println(file);
+        writeTemplate(paramsMap, file, "controller.ftl");
     }
 
-    private static void createServiceImplCode(String tableEntityName, String firstUpTableName) {
-        try {
-            Template serviceTemplate = getTemplate("serviceImpl.ftl");
+    private static void createServiceCode(Map<String, Object> paramsMap, String firstUpTableName) {
+        File fileService = new File(projectRoot + targetJava + service, firstUpTableName + "Service.java");
+        System.out.println(fileService);
+        writeTemplate(paramsMap, fileService, "service.ftl");
+    }
 
-            Map<String, Object> paramsMap = new HashMap<String, Object>();
-            paramsMap.put("tableEntityName", tableEntityName);
-            paramsMap.put("firstUpTableName", firstUpTableName);
-            File fileService = new File(projectRoot + targetJava + serviceImpl, firstUpTableName + "ServiceImpl.java");
-            System.out.println(fileService);
-            OutputStream fos = new FileOutputStream(fileService);
-            Writer out = new OutputStreamWriter(fos);
-            serviceTemplate.process(paramsMap, out);
-            fos.flush();
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private static void createServiceImplCode(Map<String, Object> paramsMap, String firstUpTableName) {
+        File fileServiceImpl = new File(projectRoot + targetJava + serviceImpl, firstUpTableName + "ServiceImpl.java");
+        System.out.println(fileServiceImpl);
+        writeTemplate(paramsMap, fileServiceImpl, "serviceImpl.ftl");
     }
 
     public static Template getTemplate(String templateName) {
@@ -125,7 +154,6 @@ public class ZenCode {
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
 
             File dir = new File(projectRoot + "src/test/java/com/zhd/ultimate/sociology/codeGenerator");
-            System.out.println(dir);
             cfg.setDirectoryForTemplateLoading(dir);
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);

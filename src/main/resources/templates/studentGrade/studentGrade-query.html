@@ -1,4 +1,4 @@
-${r'<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -38,24 +38,23 @@ ${r'<!DOCTYPE html>
         }
     </style>
 
-'}
+
     <script type="text/javascript">
-        function add${firstUpTableName}() {
-            location.href = "/${tableEntityName}/showAdd";
+        function addStudentGrade() {
+            location.href = "/studentGrade/showAdd";
         }
 
         function
 
-        del${firstUpTableName}(guid, name)
-        {
+        delStudentGrade(guid, name) {
             $.MsgBox.Confirm("提示", "你要删除[" + name + "]吗？", function () {
-                location.href = '/${tableEntityName}/delete?guid=' + guid;
+                location.href = '/studentGrade/delete?guid=' + guid;
             });
 
         }
 
-        function update${firstUpTableName}(guid) {
-            location.href = '/${tableEntityName}/showUpdate?guid=' + guid;
+        function updateStudentGrade(guid) {
+            location.href = '/studentGrade/showUpdate?guid=' + guid;
         }
 
     </script>
@@ -70,7 +69,7 @@ ${r'<!DOCTYPE html>
 
         <div style="text-align: right;">
             <button type="button" class="btn btn-primary btn-lg"
-                    onclick="add${firstUpTableName}()">新增
+                    onclick="addStudentGrade()">新增
             </button>
         </div>
 
@@ -81,26 +80,34 @@ ${r'<!DOCTYPE html>
 
                     <thead>
                     <tr>
-                        <#list columnCommentList as column>
-                        <th>${column}</th>
-                        </#list>
+                        <th>主键</th>
+                        <th>学生姓名</th>
+                        <th>性别[0:男,1:女]</th>
+                        <th>成绩</th>
+                        <th>备注</th>
+                        <th>创建时间</th>
+                        <th>修改时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="${tableEntityName}: ${r'${'}${tableEntityName}List${r'}'}">
-                        <#list columnList as column>
-                        <td th:text="${r'${'}${tableEntityName}.${column}${r'}'}"></td>
-                        </#list>
+                    <tr th:each="studentGrade: ${studentGradeList}">
+                        <td th:text="${studentGrade.guid}"></td>
+                        <td th:text="${studentGrade.stuName}"></td>
+                        <td th:text="${studentGrade.stuSex}"></td>
+                        <td th:text="${studentGrade.grade}"></td>
+                        <td th:text="${studentGrade.remarks}"></td>
+                        <td th:text="${studentGrade.createTime}"></td>
+                        <td th:text="${studentGrade.updateTime}"></td>
 
                         <td class="center">
                             <button type="button"
                                     class="btn btn-success"
-                                    th:onclick="update${firstUpTableName}([[${r'${'}${tableEntityName}.guid${r'}'}]])">修改
+                                    th:onclick="updateStudentGrade([[${studentGrade.guid}]])">修改
                             </button>
                             <button type="button"
                                     class="btn btn-danger"
-                                    th:onclick="del${firstUpTableName}([[${r'${'}${tableEntityName}.guid}]],[[${r'${'}${tableEntityName}.guid${r'}'}]])">删除
+                                    th:onclick="delStudentGrade([[${studentGrade.guid}]],[[${studentGrade.guid}]])">删除
                             </button>
                         </td>
                     </tr>
@@ -110,7 +117,7 @@ ${r'<!DOCTYPE html>
         </div>
     </div>
 </div>
-${r'
+
 
 <!-- jQuery -->
 <script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
@@ -158,4 +165,3 @@ ${r'
 
 </html>
 
-'}

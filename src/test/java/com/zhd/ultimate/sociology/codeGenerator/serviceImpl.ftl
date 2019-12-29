@@ -3,12 +3,10 @@ package com.zhd.ultimate.sociology.service.impl;
 import com.zhd.ultimate.sociology.entity.${firstUpTableName};
 import com.zhd.ultimate.sociology.mapping.${firstUpTableName}Mapper;
 import com.zhd.ultimate.sociology.service.${firstUpTableName}Service;
-import com.zhd.ultimate.sociology.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
 import java.util.List;
 
 

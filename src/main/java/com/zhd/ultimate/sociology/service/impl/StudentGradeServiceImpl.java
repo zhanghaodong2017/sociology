@@ -5,6 +5,7 @@ import com.zhd.ultimate.sociology.mapping.StudentGradeMapper;
 import com.zhd.ultimate.sociology.service.StudentGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
