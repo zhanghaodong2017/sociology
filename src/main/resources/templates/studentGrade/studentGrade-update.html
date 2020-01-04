@@ -63,8 +63,12 @@
                     <tr>
                         <td width="30%">性别[0:男,1:女]<span style="color: red">*</span></td>
                         <td width="70%">
-                            <input class="form-control" id="stuSex" maxlength="60" name="studentGrade.stuSex"
-                                   th:value="${studentGrade.stuSex}"/>
+                            <select name="studentGrade.stuSex" id="stuSex" class="form-control"
+                                    th:switch="${studentGrade.stuSex}">
+                                <option></option>
+                                <option th:selected="${studentGrade.stuSex == 0}" value="0">男</option>
+                                <option th:selected="${studentGrade.stuSex == 1}" value="1">女</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>

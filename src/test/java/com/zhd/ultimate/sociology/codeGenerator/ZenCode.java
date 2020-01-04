@@ -1,18 +1,12 @@
 package com.zhd.ultimate.sociology.codeGenerator;
 
-import com.alibaba.fastjson.JSON;
 import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateExceptionHandler;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.sql.RowSet;
-import javax.sql.rowset.CachedRowSet;
-import javax.sql.rowset.RowSetFactory;
-import javax.sql.rowset.RowSetProvider;
-import java.io.*;
-import java.sql.*;
+import java.io.File;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,9 +17,7 @@ import java.util.stream.Collectors;
  * 操作步骤：1设计表结构，2生成mapper文件和代码，3生成Service、Controller和html代码
  */
 public class ZenCode {
-    private static final String url = "jdbc:mysql://115.29.108.117:3306/zhd";
-    private static final String root = "root";
-    private static final String password = "123";
+
 
     private static final String projectRoot = "/Users/zhanghaodong/work/myproject/sociology/";
 
@@ -54,13 +46,71 @@ public class ZenCode {
         String tableEntityName = getEntityName(tableName);
         String firstUpTableName = getFirstUp(tableEntityName);
 
-        createJavaCode(tableEntityName, firstUpTableName);
+//        createJavaCode(tableEntityName, firstUpTableName);
 
         List<MyTableColumn> columns = getColumnByTableName(tableName);
-        System.out.println(JSON.toJSONString(columns));
+//        System.out.println(JSON.toJSONString(columns));
 
-        createHtmlCode(tableEntityName, firstUpTableName, columns);
+//        createHtmlCode(tableEntityName, firstUpTableName, columns);
 
+        createSelectCode(columns, tableEntityName);
+
+    }
+
+    private static void createSelectCode(List<MyTableColumn> columns, String tableEntityName) {
+        for (MyTableColumn tableColumn : columns) {
+            String comment = tableColumn.getComment();
+            if (comment.contains("[") && comment.contains("]")) {
+//                printSelectEnum(tableColumn);
+                printSelectCode(tableColumn, tableEntityName);
+            }
+        }
+    }
+
+    private static void printSelectCode(MyTableColumn tableColumn, String tableEntityName) {
+        LinkedHashMap<String, String> columnCommentMap = getColumnCommentMap(tableColumn.getComment());
+        String entityName = tableColumn.getEntityName();
+        StringBuilder builder = new StringBuilder();
+        builder.append("\n\n                            <select name=\"" + tableEntityName + "." + entityName + "\" id=\"" + entityName + "\" class=\"form-control\" >\n");
+        builder.append("                                <option></option>\n");
+        for (String key : columnCommentMap.keySet()) {
+            builder.append("                                <option value=\"" + key + "\">" + columnCommentMap.get(key) + "</option>\n");
+        }
+        builder.append("                            </select>");
+
+        System.err.println(builder.toString());
+        StringBuilder builder2 = new StringBuilder();
+        builder2.append("\n\n                            <select name=\"" + tableEntityName + "." + entityName + "\" id=\"" + entityName + "\" class=\"form-control\" >\n");
+        builder2.append("                                <option></option>\n");
+        for (String key : columnCommentMap.keySet()) {
+            builder2.append("                                <option th:selected=\"${" + tableEntityName + "." + entityName + " == " + key + "}\" value=\"" + key + "\">" + columnCommentMap.get(key) + "</option>\n");
+        }
+        builder2.append("                            </select>");
+
+        System.err.println(builder2.toString());
+    }
+
+    private static void printSelectEnum(MyTableColumn tableColumn) {
+        String comment = tableColumn.getComment();
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("firstUpColumnName", tableColumn.getFirstUpEntityName());
+        paramsMap.put("columnName", tableColumn.getEntityName());
+
+        LinkedHashMap<String, String> columnCommentMap = getColumnCommentMap(comment);
+        paramsMap.put("columnCommentMap", columnCommentMap);
+
+        TemplateUtils.printTemplate(paramsMap, "enums.ftl");
+    }
+
+    private static LinkedHashMap<String, String> getColumnCommentMap(String comment) {
+        String enumsStr = comment.substring(comment.indexOf("[") + 1, comment.indexOf("]"));
+        String[] split = enumsStr.split(",");
+        LinkedHashMap<String, String> columnCommentMap = new LinkedHashMap<>();
+        for (int i = 0; i < split.length; i++) {
+            String[] note = split[i].split(":");
+            columnCommentMap.put(note[0], note[1]);
+        }
+        return columnCommentMap;
     }
 
 
@@ -83,28 +133,11 @@ public class ZenCode {
             parentFile.mkdir();
         }
 
-        createQueryHtml(paramsMap, parentFile, tableEntityName);
-        createAddHtml(paramsMap, parentFile, tableEntityName);
-        createUpdateHtml(paramsMap, parentFile, tableEntityName);
+        TemplateUtils.createQueryHtml(paramsMap, parentFile, tableEntityName);
+        TemplateUtils.createAddHtml(paramsMap, parentFile, tableEntityName);
+        TemplateUtils.createUpdateHtml(paramsMap, parentFile, tableEntityName);
     }
 
-    private static void createQueryHtml(Map<String, Object> paramsMap, File parentFile, String tableEntityName) {
-        File file = new File(parentFile, tableEntityName + "-query.html");
-        System.out.println(file);
-        writeTemplate(paramsMap, file, "query.ftl");
-    }
-
-    private static void createAddHtml(Map<String, Object> paramsMap, File parentFile, String tableEntityName) {
-        File file = new File(parentFile, tableEntityName + "-add.html");
-        System.out.println(file);
-        writeTemplate(paramsMap, file, "add.ftl");
-    }
-
-    private static void createUpdateHtml(Map<String, Object> paramsMap, File parentFile, String tableEntityName) {
-        File file = new File(parentFile, tableEntityName + "-update.html");
-        System.out.println(file);
-        writeTemplate(paramsMap, file, "update.ftl");
-    }
 
     private static void createJavaCode(String tableEntityName, String firstUpTableName) {
 
@@ -112,61 +145,15 @@ public class ZenCode {
         paramsMap.put("tableEntityName", tableEntityName);
         paramsMap.put("firstUpTableName", firstUpTableName);
 
-        createControllerCode(paramsMap, firstUpTableName);
-        createServiceCode(paramsMap, firstUpTableName);
-        createServiceImplCode(paramsMap, firstUpTableName);
+        TemplateUtils.createControllerCode(paramsMap, firstUpTableName);
+        TemplateUtils.createServiceCode(paramsMap, firstUpTableName);
+        TemplateUtils.createServiceImplCode(paramsMap, firstUpTableName);
     }
 
-    private static void writeTemplate(Map<String, Object> paramsMap, File file, String templateName) {
-        try {
-            Template template = getTemplate(templateName);
-            OutputStream fos = new FileOutputStream(file);
-            Writer out = new OutputStreamWriter(fos);
-            template.process(paramsMap, out);
-            fos.flush();
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void createControllerCode(Map<String, Object> paramsMap, String firstUpTableName) {
-        File file = new File(projectRoot + targetJava + controller, firstUpTableName + "Controller.java");
-        System.out.println(file);
-        writeTemplate(paramsMap, file, "controller.ftl");
-    }
-
-    private static void createServiceCode(Map<String, Object> paramsMap, String firstUpTableName) {
-        File fileService = new File(projectRoot + targetJava + service, firstUpTableName + "Service.java");
-        System.out.println(fileService);
-        writeTemplate(paramsMap, fileService, "service.ftl");
-    }
-
-    private static void createServiceImplCode(Map<String, Object> paramsMap, String firstUpTableName) {
-        File fileServiceImpl = new File(projectRoot + targetJava + serviceImpl, firstUpTableName + "ServiceImpl.java");
-        System.out.println(fileServiceImpl);
-        writeTemplate(paramsMap, fileServiceImpl, "serviceImpl.ftl");
-    }
-
-    public static Template getTemplate(String templateName) {
-        try {
-            //配置类
-            Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
-
-            File dir = new File(projectRoot + "src/test/java/com/zhd/ultimate/sociology/codeGenerator");
-            cfg.setDirectoryForTemplateLoading(dir);
-            cfg.setDefaultEncoding("UTF-8");
-            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-            return cfg.getTemplate(templateName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     //获取表字段
     public static List<MyTableColumn> getColumnByTableName(String tableName) {
-        RowSet rowSet = executeQuery(sqlTableColumn, tableName);
+        RowSet rowSet = JDBCUtils.executeQuery(sqlTableColumn, tableName);
         List<MyTableColumn> tableColumns = new ArrayList<>();
         if (rowSet == null) {
             return tableColumns;
@@ -224,46 +211,6 @@ public class ZenCode {
 
     }
 
-    private static RowSet executeQuery(String sql, String... params) {
-        //获取连接
-        Connection con = null;
-        //创建statement对象
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        CachedRowSet rowSet = null;
-        try {
-            con = DriverManager.getConnection(url, root, password);
-            statement = con.prepareStatement(sql);
-            if (params != null) {
-                for (int i = 1; i <= params.length; i++) {
-                    statement.setString(i, params[i - 1]);
-                }
-            }
-            //发送并执行sql
-            rs = statement.executeQuery();
-            RowSetFactory rowSetFactory = RowSetProvider.newFactory();
-            //创建指定的RowSet
-            rowSet = rowSetFactory.createCachedRowSet();
-            //将ResultSet放到RowSet中
-            rowSet.populate(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            // 6 释放资源
-            close(rs);
-            close(statement);
-            close(con);
-        }
-        return rowSet;
-    }
-
-    private static void close(AutoCloseable closeable) {
-        try {
-            closeable.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Data
     public static class MyTableColumn {

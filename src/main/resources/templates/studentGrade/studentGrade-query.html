@@ -94,7 +94,7 @@
                     <tr th:each="studentGrade: ${studentGradeList}">
                         <td th:text="${studentGrade.guid}"></td>
                         <td th:text="${studentGrade.stuName}"></td>
-                        <td th:text="${studentGrade.stuSex}"></td>
+                        <td th:text="${studentGrade.stuSex==0?'男':'女'}"></td>
                         <td th:text="${studentGrade.grade}"></td>
                         <td th:text="${studentGrade.remarks}"></td>
                         <td th:text="${studentGrade.createTime}"></td>

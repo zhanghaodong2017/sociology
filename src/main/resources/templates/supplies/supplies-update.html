@@ -67,13 +67,13 @@
                     <tr>
                         <td width="30%">类型<span style="color: red">*</span></td>
                         <td width="70%">
-                            <select name="supplies.type" id="type" class="form-control" th:switch="${supplies.type}">
+                            <select name="supplies.type" id="type" class="form-control">
                                 <option></option>
-                                <option th:case="1" th:selected="selected" value="1">纸</option>
-                                <option th:case="2" th:selected="selected" value="2">笔</option>
-                                <option th:case="3" th:selected="selected" value="3">订书机</option>
-                                <option th:case="4" th:selected="selected" value="4">回形针</option>
-                                <option th:case="5" th:selected="selected" value="5">打印纸</option>
+                                <option th:selected="${supplies.type == 1}" value="1">纸</option>
+                                <option th:selected="${supplies.type == 2}" value="2">笔</option>
+                                <option th:selected="${supplies.type == 3}" value="3">订书机</option>
+                                <option th:selected="${supplies.type == 4}" value="4">回形针</option>
+                                <option th:selected="${supplies.type == 5}" value="5">打印纸</option>
                             </select>
                         </td>
                     </tr>
