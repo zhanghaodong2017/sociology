@@ -14,7 +14,7 @@
     guid, stu_name, stu_sex, grade, remarks, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from student_grade
     where guid = #{guid,jdbcType=VARCHAR}
@@ -30,12 +30,12 @@
     where guid = #{guid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.zhd.ultimate.sociology.entity.StudentGrade" >
-    insert into student_grade (guid, stu_name, stu_sex, 
-      grade, remarks, create_time, 
-      update_time)
-    values (#{guid,jdbcType=VARCHAR}, #{stuName,jdbcType=VARCHAR}, #{stuSex,jdbcType=INTEGER}, 
-      #{grade,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+    insert into student_grade (guid, stu_name, stu_sex,
+                               grade, remarks, create_time,
+                               update_time)
+    values (#{guid,jdbcType=VARCHAR}, #{stuName,jdbcType=VARCHAR}, #{stuSex,jdbcType=INTEGER},
+            #{grade,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+            #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.zhd.ultimate.sociology.entity.StudentGrade" >
     insert into student_grade
@@ -113,11 +113,11 @@
   <update id="updateByPrimaryKey" parameterType="com.zhd.ultimate.sociology.entity.StudentGrade" >
     update student_grade
     set stu_name = #{stuName,jdbcType=VARCHAR},
-      stu_sex = #{stuSex,jdbcType=INTEGER},
-      grade = #{grade,jdbcType=INTEGER},
-      remarks = #{remarks,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+        stu_sex = #{stuSex,jdbcType=INTEGER},
+        grade = #{grade,jdbcType=INTEGER},
+        remarks = #{remarks,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
     where guid = #{guid,jdbcType=VARCHAR}
   </update>
 </mapper>
