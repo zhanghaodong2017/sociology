@@ -5,6 +5,10 @@ import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetFactory;
 import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: zhanghaodong
@@ -17,20 +21,36 @@ public class JDBCUtils {
     private static final String root = "root";
     private static final String password = "123";
 
+    public static List<Map<String, Object>> executeQuery2(String sql, Object... params) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        try {
+            RowSet rowSet = executeQuery(sql, params);
+            ResultSetMetaData metaData = rowSet.getMetaData();
+            while (rowSet.next()) {
+                Map<String, Object> resultMap = new HashMap<>();
+                for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                    String columnName = metaData.getColumnName(i);
+                    resultMap.put(columnName, rowSet.getObject(columnName));
+                }
+                list.add(resultMap);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
-    public static RowSet executeQuery(String sql, String... params) {
+    public static RowSet executeQuery(String sql, Object... params) {
         //获取连接
-        Connection con = null;
         //创建statement对象
-        PreparedStatement statement = null;
         ResultSet rs = null;
         CachedRowSet rowSet = null;
-        try {
-            con = DriverManager.getConnection(url, root, password);
-            statement = con.prepareStatement(sql);
+        try (Connection con = DriverManager.getConnection(url, root, password);
+             PreparedStatement statement = con.prepareStatement(sql)) {
+
             if (params != null) {
                 for (int i = 1; i <= params.length; i++) {
-                    statement.setString(i, params[i - 1]);
+                    statement.setObject(i, params[i - 1]);
                 }
             }
             //发送并执行sql
@@ -45,8 +65,6 @@ public class JDBCUtils {
         } finally {
             // 6 释放资源
             close(rs);
-            close(statement);
-            close(con);
         }
         return rowSet;
     }
