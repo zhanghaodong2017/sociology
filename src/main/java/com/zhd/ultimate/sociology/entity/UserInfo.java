@@ -20,6 +20,8 @@ public class UserInfo {
 
     private Integer sex;
 
+    private String headImg;
+
     private String email;
 
     private Integer level;

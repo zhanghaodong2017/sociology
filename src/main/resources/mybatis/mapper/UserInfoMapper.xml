@@ -9,6 +9,7 @@
         <result column="real_name" jdbcType="VARCHAR" property="realName"/>
         <result column="address" jdbcType="VARCHAR" property="address"/>
         <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="head_img" jdbcType="VARCHAR" property="headImg"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="level" jdbcType="INTEGER" property="level"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -23,6 +24,7 @@
         real_name,
         address,
         sex,
+        head_img,
         email,
         level,
         create_time,
@@ -45,11 +47,14 @@
 
     <insert id="insert" parameterType="com.zhd.ultimate.sociology.entity.UserInfo">
         insert into user_info (guid, user_name, pass_word,
-                               salt, real_name, address,
-                               level, create_time, update_time)
+                               salt, real_name, address, sex,
+                               head_img, email, level, delete_flag,
+                               create_time, update_time)
         values (#{guid,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR},
                 #{salt,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
-                #{level,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+                #{sex,jdbcType=INTEGER},
+                #{headImg,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER},
+                1, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
     </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zhd.ultimate.sociology.entity.UserInfo">
@@ -59,9 +64,19 @@
             salt        = #{salt,jdbcType=VARCHAR},
             real_name   = #{realName,jdbcType=VARCHAR},
             address     = #{address,jdbcType=VARCHAR},
+            sex         = #{sex,jdbcType=VARCHAR},
+            head_img    = #{headImg,jdbcType=VARCHAR},
+            email       = #{email,jdbcType=VARCHAR},
             level       = #{level,jdbcType=INTEGER},
             create_time = #{createTime,jdbcType=TIMESTAMP},
             update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where guid = #{guid,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteUser" parameterType="java.lang.String">
+        update user_info
+        set delete_flag = 0,
+            update_time = now()
         where guid = #{guid,jdbcType=VARCHAR}
     </update>
 </mapper>

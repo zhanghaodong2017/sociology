@@ -69,7 +69,7 @@
         </ul>
         <!-- /.navbar-top-links -->
 
-        <div class="navbar-default sidebar" role="navigation">
+    <!--    <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li class="active">
@@ -82,13 +82,25 @@
                                 <a th:href="@{/studentGrade/queryAllStudentGrade}" target="myIframe">成绩查询</a>
                             </li>
                         </ul>
-                        <!-- /.nav-second-level -->
                     </li>
                 </ul>
             </div>
-            <!-- /.sidebar-collapse -->
+        </div>-->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a th:href="@{/supplies/queryAllSupplies}" target="myIframe">办公用品</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/studentGrade/queryAllStudentGrade}" target="myIframe">成绩查询</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <!-- /.navbar-static-side -->
+
+
     </nav>
 
     <!-- Page Content -->

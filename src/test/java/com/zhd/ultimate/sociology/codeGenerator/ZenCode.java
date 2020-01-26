@@ -42,7 +42,7 @@ public class ZenCode {
     private Configuration config;
 
     public static void main(String[] args) {
-        String tableName = "student_grade";
+        String tableName = "user_info";
         String tableEntityName = getEntityName(tableName);
         String firstUpTableName = getFirstUp(tableEntityName);
 

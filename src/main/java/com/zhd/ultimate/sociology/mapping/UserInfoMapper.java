@@ -9,9 +9,11 @@ public interface UserInfoMapper {
 
     int insert(UserInfo record);
 
-    UserInfo selectByPrimaryKey(String guid);
+    UserInfo selectByPrimaryKey(@Param("guid") String guid);
 
     UserInfo queryUserByName(@Param("userName") String userName);
 
     int updateByPrimaryKey(UserInfo record);
+
+    int deleteUser(@Param("guid") String guid);
 }
