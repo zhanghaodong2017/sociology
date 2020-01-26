@@ -1,6 +1,7 @@
 package com.zhd.ultimate.sociology.entity;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -21,6 +22,8 @@ public class UserInfo {
     private Integer sex;
 
     private String headImg;
+
+    private MultipartFile headImgFile;
 
     private String email;
 

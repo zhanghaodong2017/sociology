@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      initial-size: 8
+      initial-size: 2
       min-idle: 1
       max-active: 20
       max-wait: 60000
@@ -22,3 +22,7 @@ spring:
       filters: stat
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       use-global-data-source-stat: true
+
+
+file:
+  upload-dir: /Users/zhanghaodong/work/myproject/image/

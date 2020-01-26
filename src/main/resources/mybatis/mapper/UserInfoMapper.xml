@@ -16,8 +16,7 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-        guid
-        ,
+        guid,
         user_name,
         pass_word,
         salt,
@@ -44,6 +43,12 @@
         where user_name = #{userName,jdbcType=VARCHAR}
         limit 1
     </select>
+    <select id="queryAllUserInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where delete_flag = 1
+    </select>
 
     <insert id="insert" parameterType="com.zhd.ultimate.sociology.entity.UserInfo">
         insert into user_info (guid, user_name, pass_word,
@@ -59,16 +64,11 @@
 
     <update id="updateByPrimaryKey" parameterType="com.zhd.ultimate.sociology.entity.UserInfo">
         update user_info
-        set user_name   = #{userName,jdbcType=VARCHAR},
-            pass_word   = #{passWord,jdbcType=VARCHAR},
-            salt        = #{salt,jdbcType=VARCHAR},
-            real_name   = #{realName,jdbcType=VARCHAR},
+        set real_name   = #{realName,jdbcType=VARCHAR},
             address     = #{address,jdbcType=VARCHAR},
             sex         = #{sex,jdbcType=VARCHAR},
-            head_img    = #{headImg,jdbcType=VARCHAR},
             email       = #{email,jdbcType=VARCHAR},
             level       = #{level,jdbcType=INTEGER},
-            create_time = #{createTime,jdbcType=TIMESTAMP},
             update_time = #{updateTime,jdbcType=TIMESTAMP}
         where guid = #{guid,jdbcType=VARCHAR}
     </update>

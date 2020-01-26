@@ -4,6 +4,8 @@ import com.zhd.ultimate.sociology.entity.UserInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserInfoMapper {
 
@@ -16,4 +18,7 @@ public interface UserInfoMapper {
     int updateByPrimaryKey(UserInfo record);
 
     int deleteUser(@Param("guid") String guid);
+
+    List<UserInfo> queryAllUserInfo();
+
 }

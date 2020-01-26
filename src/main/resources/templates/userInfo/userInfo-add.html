@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Admin平台系统</title>
+    <link th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/bower_components/metisMenu/dist/metisMenu.min.css}" rel="stylesheet">
+    <link th:href="@{/bower_components/morrisjs/morris.css}" rel="stylesheet">
+    <link th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/myjs/bootstrap-select.css}" rel="stylesheet" type="text/css">
+
+    <style type="text/css">
+
+        td {
+            padding: 2px;
+            marign: 1px;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        function add() {
+
+            $("#userInfoForm").submit();
+        }
+
+        function cancel() {
+            location.href = "/userInfo/queryAllUserInfo";
+        }
+
+
+    </script>
+
+
+</head>
+<body>
+<div id="content" style="margin-top: 2em;">
+    <div class="container-fluid">
+        <form th:action="@{/userInfo/add}" method="POST" id="userInfoForm" enctype="multipart/form-data">
+            <div style="text-align: center; width: 100%">
+                <table style="width: 800px">
+                    <tr>
+                        <td width="30%"> 用户名<span style="color: red">*</span></td>
+                        <td width="70%">
+                        <input class="form-control" id="userName" maxlength="60" name="userInfo.userName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"> 密码<span style="color: red">*</span></td>
+                        <td width="70%">
+                        <input class="form-control" id="passWord" maxlength="60" name="userInfo.passWord"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"> 真实姓名<span style="color: red">*</span></td>
+                        <td width="70%">
+                        <input class="form-control" id="realName" maxlength="60" name="userInfo.realName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"> 地址<span style="color: red">*</span></td>
+                        <td width="70%">
+                        <input class="form-control" id="address" maxlength="60" name="userInfo.address"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"> 性别<span style="color: red">*</span></td>
+                        <td width="70%">
+                            <select name="userInfo.sex" id="sex" class="form-control" >
+                                <option></option>
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"> 头像<span style="color: red">*</span></td>
+                        <td width="70%">
+                        <input class="form-control" id="headImgFile" value="请选择头像"
+                               maxlength="60" name="userInfo.headImgFile" type="file"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"> 电子邮件<span style="color: red">*</span></td>
+                        <td width="70%">
+                        <input class="form-control" id="email" maxlength="60" name="userInfo.email"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%"> 等级<span style="color: red">*</span></td>
+                        <td width="70%">
+                        <input class="form-control" id="level" maxlength="60" name="userInfo.level"/>
+                        </td>
+                    </tr>
+                    <tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" width="100%" align="center">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <button type="button" onclick="add()" class="btn btn-default">提交</button>
+                                    </td>
+                                    <td>
+                                        <button type="reset" onclick="cancel()" class="btn btn-default">取消</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+<!-- jQuery -->
+<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script th:src="@{/bower_components/metisMenu/dist/metisMenu.min.js}"></script>
+
+<!-- Morris Charts JavaScript -->
+<script th:src="@{/bower_components/raphael/raphael-min.js}"></script>
+
+
+<script th:src="@{/myjs/confirm.js}"></script>
+
+<script th:src="@{/myjs/bootstrap-select.js}"></script>
+
+
+</html>
+

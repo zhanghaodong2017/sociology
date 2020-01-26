@@ -46,12 +46,12 @@ public class ZenCode {
         String tableEntityName = getEntityName(tableName);
         String firstUpTableName = getFirstUp(tableEntityName);
 
-//        createJavaCode(tableEntityName, firstUpTableName);
+        createJavaCode(tableEntityName, firstUpTableName);
 
         List<MyTableColumn> columns = getColumnByTableName(tableName);
 //        System.out.println(JSON.toJSONString(columns));
 
-//        createHtmlCode(tableEntityName, firstUpTableName, columns);
+        createHtmlCode(tableEntityName, firstUpTableName, columns);
 
         createSelectCode(columns, tableEntityName);
 
