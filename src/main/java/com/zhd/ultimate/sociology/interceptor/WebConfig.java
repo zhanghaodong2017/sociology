@@ -1,5 +1,6 @@
 package com.zhd.ultimate.sociology.interceptor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -12,13 +13,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
                 .addResourceLocations("classpath:/templates/");
         //映射图片保存地址
-        registry.addResourceHandler("/image/**").addResourceLocations("file:/Users/zhanghaodong/work/myproject/image/");
+        registry.addResourceHandler("/image/**").addResourceLocations("file:" + uploadDir);
         super.addResourceHandlers(registry);
     }
 }
